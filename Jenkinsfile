@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {        
-        GIT_CREDENTIALS = 'git-vansh'   
+        GIT_CREDENTIALS = 'test'   
     }
 
     stages {
