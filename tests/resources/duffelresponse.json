@@ -1,0 +1,354 @@
+{
+  "data": {
+    "offers": [
+      {
+        "total_emissions_kg": "571",
+        "payment_requirements": {
+          "price_guarantee_expires_at": "2024-11-20T09:34:19Z",
+          "payment_required_by": "2024-11-21T09:34:19Z",
+          "requires_instant_payment": false
+        },
+        "available_services": null,
+        "supported_passenger_identity_document_types": [
+          "passport",
+          "known_traveler_number",
+          "passenger_redress_number"
+        ],
+        "passenger_identity_documents_required": false,
+        "tax_currency": "USD",
+        "base_currency": "USD",
+        "base_amount": "40.89",
+        "supported_loyalty_programmes": [],
+        "private_fares": [],
+        "tax_amount": "7.36",
+        "total_currency": "USD",
+        "created_at": "2024-11-18T09:34:19.412477Z",
+        "live_mode": false,
+        "total_amount": "48.25",
+        "slices": [
+          {
+            "comparison_key": "BQQ2Qg==",
+            "ngs_shelf": 1,
+            "destination_type": "airport",
+            "origin_type": "airport",
+            "fare_brand_name": "Basic",
+            "segments": [
+              {
+                "origin_terminal": "2",
+                "destination_terminal": "1",
+                "aircraft": null,
+                "departing_at": "2024-11-20T14:42:00",
+                "arriving_at": "2024-11-20T15:26:00",
+                "operating_carrier": {
+                  "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                  "logo_lockup_url": null,
+                  "conditions_of_carriage_url": null,
+                  "iata_code": "ZZ",
+                  "name": "Duffel Airways",
+                  "id": "arl_00009VME7D6ivUu8dn35WK"
+                },
+                "marketing_carrier": {
+                  "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                  "logo_lockup_url": null,
+                  "conditions_of_carriage_url": null,
+                  "iata_code": "ZZ",
+                  "name": "Duffel Airways",
+                  "id": "arl_00009VME7D6ivUu8dn35WK"
+                },
+                "operating_carrier_flight_number": "8349",
+                "stops": [],
+                "marketing_carrier_flight_number": "8349",
+                "distance": "123.38124946164467",
+                "passengers": [
+                  {
+                    "cabin": {
+                      "amenities": {
+                        "wifi": {
+                          "cost": "paid",
+                          "available": true
+                        },
+                        "seat": {
+                          "pitch": "30",
+                          "legroom": "n/a",
+                          "type": null
+                        },
+                        "power": {
+                          "available": true
+                        }
+                      },
+                      "marketing_name": "Economy",
+                      "name": "economy"
+                    },
+                    "baggages": [
+                      {
+                        "quantity": 1,
+                        "type": "checked"
+                      },
+                      {
+                        "quantity": 1,
+                        "type": "carry_on"
+                      }
+                    ],
+                    "cabin_class_marketing_name": "Economy",
+                    "passenger_id": "pas_0000AoAAeW4F0CbwDdn9RD",
+                    "fare_basis_code": "Y20LGTN2",
+                    "cabin_class": "economy"
+                  }
+                ],
+                "media": [],
+                "duration": "PT44M",
+                "destination": {
+                  "iata_city_code": "PNQ",
+                  "city_name": "Pune",
+                  "iata_country_code": "IN",
+                  "icao_code": "VAPO",
+                  "iata_code": "PNQ",
+                  "latitude": 18.580085,
+                  "longitude": 73.909174,
+                  "city": null,
+                  "time_zone": "Asia/Kolkata",
+                  "type": "airport",
+                  "name": "Pune Airport",
+                  "id": "arp_pnq_in"
+                },
+                "origin": {
+                  "iata_city_code": "BOM",
+                  "city_name": "Mumbai",
+                  "iata_country_code": "IN",
+                  "icao_code": "VABB",
+                  "iata_code": "BOM",
+                  "latitude": 19.089283,
+                  "longitude": 72.867536,
+                  "city": null,
+                  "time_zone": "Asia/Kolkata",
+                  "type": "airport",
+                  "name": "Chhatrapati Shivaji International Airport",
+                  "id": "arp_bom_in"
+                },
+                "id": "seg_0000AoAAeWTlTJ1lUnjXDk"
+              }
+            ],
+            "conditions": {
+              "priority_check_in": null,
+              "priority_boarding": null,
+              "advance_seat_selection": null,
+              "change_before_departure": {
+                "penalty_currency": null,
+                "penalty_amount": null,
+                "allowed": false
+              }
+            },
+            "duration": "PT44M",
+            "destination": {
+              "iata_city_code": "PNQ",
+              "city_name": "Pune",
+              "iata_country_code": "IN",
+              "icao_code": "VAPO",
+              "iata_code": "PNQ",
+              "latitude": 18.580085,
+              "longitude": 73.909174,
+              "city": null,
+              "time_zone": "Asia/Kolkata",
+              "type": "airport",
+              "name": "Pune Airport",
+              "id": "arp_pnq_in"
+            },
+            "origin": {
+              "iata_city_code": "BOM",
+              "city_name": "Mumbai",
+              "iata_country_code": "IN",
+              "icao_code": "VABB",
+              "iata_code": "BOM",
+              "latitude": 19.089283,
+              "longitude": 72.867536,
+              "city": null,
+              "time_zone": "Asia/Kolkata",
+              "type": "airport",
+              "name": "Chhatrapati Shivaji International Airport",
+              "id": "arp_bom_in"
+            },
+            "id": "sli_0000AoAAeWTlTJ1lUnjXDl"
+          },
+          {
+            "comparison_key": "JHeT",
+            "ngs_shelf": 1,
+            "destination_type": "airport",
+            "origin_type": "airport",
+            "fare_brand_name": "Basic",
+            "segments": [
+              {
+                "origin_terminal": "2",
+                "destination_terminal": "1",
+                "aircraft": null,
+                "departing_at": "2024-11-22T16:15:00",
+                "arriving_at": "2024-11-22T16:59:00",
+                "operating_carrier": {
+                  "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                  "logo_lockup_url": null,
+                  "conditions_of_carriage_url": null,
+                  "iata_code": "ZZ",
+                  "name": "Duffel Airways",
+                  "id": "arl_00009VME7D6ivUu8dn35WK"
+                },
+                "marketing_carrier": {
+                  "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                  "logo_lockup_url": null,
+                  "conditions_of_carriage_url": null,
+                  "iata_code": "ZZ",
+                  "name": "Duffel Airways",
+                  "id": "arl_00009VME7D6ivUu8dn35WK"
+                },
+                "operating_carrier_flight_number": "8349",
+                "stops": [],
+                "marketing_carrier_flight_number": "8349",
+                "distance": "123.38124946164467",
+                "passengers": [
+                  {
+                    "cabin": {
+                      "amenities": {
+                        "wifi": {
+                          "cost": "paid",
+                          "available": true
+                        },
+                        "seat": {
+                          "pitch": "30",
+                          "legroom": "n/a",
+                          "type": null
+                        },
+                        "power": {
+                          "available": true
+                        }
+                      },
+                      "marketing_name": "Economy",
+                      "name": "economy"
+                    },
+                    "baggages": [
+                      {
+                        "quantity": 1,
+                        "type": "checked"
+                      },
+                      {
+                        "quantity": 1,
+                        "type": "carry_on"
+                      }
+                    ],
+                    "cabin_class_marketing_name": "Economy",
+                    "passenger_id": "pas_0000AoAAeW4F0CbwDdn9RD",
+                    "fare_basis_code": "Y20LGTN2",
+                    "cabin_class": "economy"
+                  }
+                ],
+                "media": [],
+                "duration": "PT44M",
+                "destination": {
+                  "iata_city_code": "BOM",
+                  "city_name": "Mumbai",
+                  "iata_country_code": "IN",
+                  "icao_code": "VABB",
+                  "iata_code": "BOM",
+                  "latitude": 19.089283,
+                  "longitude": 72.867536,
+                  "city": null,
+                  "time_zone": "Asia/Kolkata",
+                  "type": "airport",
+                  "name": "Chhatrapati Shivaji International Airport",
+                  "id": "arp_bom_in"
+                },
+                "origin": {
+                  "iata_city_code": "PNQ",
+                  "city_name": "Pune",
+                  "iata_country_code": "IN",
+                  "icao_code": "VAPO",
+                  "iata_code": "PNQ",
+                  "latitude": 18.580085,
+                  "longitude": 73.909174,
+                  "city": null,
+                  "time_zone": "Asia/Kolkata",
+                  "type": "airport",
+                  "name": "Pune Airport",
+                  "id": "arp_pnq_in"
+                },
+                "id": "seg_0000AoAAeWTlTJ1lUnjXDm"
+              }
+            ],
+            "conditions": {
+              "priority_check_in": null,
+              "priority_boarding": null,
+              "advance_seat_selection": null,
+              "change_before_departure": {
+                "penalty_currency": null,
+                "penalty_amount": null,
+                "allowed": false
+              }
+            },
+            "duration": "PT44M",
+            "destination": {
+              "iata_city_code": "BOM",
+              "city_name": "Mumbai",
+              "iata_country_code": "IN",
+              "icao_code": "VABB",
+              "iata_code": "BOM",
+              "latitude": 19.089283,
+              "longitude": 72.867536,
+              "city": null,
+              "time_zone": "Asia/Kolkata",
+              "type": "airport",
+              "name": "Chhatrapati Shivaji International Airport",
+              "id": "arp_bom_in"
+            },
+            "origin": {
+              "iata_city_code": "PNQ",
+              "city_name": "Pune",
+              "iata_country_code": "IN",
+              "icao_code": "VAPO",
+              "iata_code": "PNQ",
+              "latitude": 18.580085,
+              "longitude": 73.909174,
+              "city": null,
+              "time_zone": "Asia/Kolkata",
+              "type": "airport",
+              "name": "Pune Airport",
+              "id": "arp_pnq_in"
+            },
+            "id": "sli_0000AoAAeWTlTJ1lUnjXDn"
+          }
+        ],
+        "passengers": [
+          {
+            "fare_type": null,
+            "loyalty_programme_accounts": [],
+            "family_name": null,
+            "given_name": null,
+            "age": null,
+            "type": "adult",
+            "id": "pas_0000AoAAeW4F0CbwDdn9RD"
+          }
+        ],
+        "conditions": {
+          "refund_before_departure": {
+            "penalty_currency": null,
+            "penalty_amount": null,
+            "allowed": false
+          },
+          "change_before_departure": {
+            "penalty_currency": null,
+            "penalty_amount": null,
+            "allowed": false
+          }
+        },
+        "updated_at": "2024-11-18T09:34:19.412477Z",
+        "expires_at": "2024-11-18T10:04:19.410288Z",
+        "partial": false,
+        "owner": {
+          "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+          "logo_lockup_url": null,
+          "conditions_of_carriage_url": null,
+          "iata_code": "ZZ",
+          "name": "Duffel Airways",
+          "id": "arl_00009VME7D6ivUu8dn35WK"
+        },
+        "id": "off_0000AoAAeWTlTJ1lUnjXDo"
+      }
+    ]
+  }
+}
