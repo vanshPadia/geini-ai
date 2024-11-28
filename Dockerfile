@@ -3,6 +3,7 @@ FROM python:3.12
 WORKDIR /genie-ai-app
 
 COPY ./requirements.txt /genie-ai-app/requirements.txt
+COPY ./.env .
 
 RUN pip install --no-cache-dir --upgrade -r /genie-ai-app/requirements.txt
 
