@@ -1,51 +1,52 @@
 pipeline {
     agent any
-    
+
     environment {        
-        GIT_CREDENTIALS = 'test'   
+        GIT_CREDENTIALS = 'test'         
     }
 
     stages {
         stage('Checkout') {
             steps {
                 script {                    
-                    withFolderProperties {
-                        checkout([
-                            $class: 'GitSCM',
-                            branches: [[name: env.gitBranch ?: 'master']],
-                            userRemoteConfigs: [[
-                                url: env.repositoryUrl,
-                                credentialsId: GIT_CREDENTIALS  
-                            ]]                          
-                        ])
-                    }
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: env.gitBranch]],
+                        userRemoteConfigs: [[
+                            url: env.repositoryUrl,
+                            credentialsId: GIT_CREDENTIALS  
+                        ]]
+                    ])
                 }
             }
         }
-        
-        stage('Build Docker && save') {
+
+        stage('Build Docker and Save') {
             steps {
-                script {                   
+                script {
                     sh '''
                         docker build -t genie-ai-image:latest .
-                        save -o genie-ai-image.tar genie-ai-image:latest
+                        docker save -o genie-ai-image.tar genie-ai-image:latest
                     '''
                 }
             }
         }
-        stage('relode') {
+
+        stage('Reload Docker Image') {
             steps {
-                script {                   
+                script {
                     sh '''
                         docker load < genie-ai-image.tar
                     '''
                 }
             }
         }
-        stage('run docker') {
+
+        stage('Run Docker Container') {
             steps {
-                script {                   
+                script {
                     sh '''
+                        docker rm -f genie-ai-container || true
                         docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
                     '''
                 }
