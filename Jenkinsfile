@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
+                script {                    
                     withFolderProperties {
                         checkout([
                             $class: 'GitSCM',
@@ -23,16 +23,14 @@ pipeline {
             }
         }
         
-        stage('Build docker') {
+        stage('Build Docker') {
             steps {
-                script {
+                script {                   
                     sh '''
                         docker build -t genie-ai-image:latest . 
-                    
                     '''
-                    
-                    }
                 }
             }
         }
-        
+    }
+}
