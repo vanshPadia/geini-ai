@@ -23,11 +23,30 @@ pipeline {
             }
         }
         
-        stage('Build Docker') {
+        stage('Build Docker && save') {
             steps {
                 script {                   
                     sh '''
-                        docker build -t genie-ai-image:latest . 
+                        docker build -t genie-ai-image:latest .
+                        save -o genie-ai-image.tar genie-ai-image:latest
+                    '''
+                }
+            }
+        }
+        stage('relode') {
+            steps {
+                script {                   
+                    sh '''
+                        docker load < genie-ai-image.tar
+                    '''
+                }
+            }
+        }
+        stage('run docker') {
+            steps {
+                script {                   
+                    sh '''
+                        docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
                     '''
                 }
             }
