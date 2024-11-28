@@ -36,39 +36,32 @@ pipeline {
 
         stage('Copying image tar to aipoc machine') {
             steps {
-                script {
-                    sshagent(['aipoc-ssh-key']) {                 
+                script {                                 
                         sh '''
-                            scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/
-                        '''
-                    }
+                            sshpass -p 'N0ida@12345' ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35 'scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/'
+                        '''                    
                 }
             }
         }
 
         stage('Relode') {
             steps {
-                script {     
-                    sshagent(['aipoc-ssh-key']) {           
+                script {                           
                         sh '''
-                            ssh aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
-                        '''
-                    }
+                            sshpass -p 'N0ida@12345' ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
+                        '''                   
                 }
             }
         }
 
         stage('Run Docker') {
             steps {
-                script {     
-                    sshagent(['aipoc-ssh-key']) {           
+                script {                            
                         sh '''
-                            ssh aipoc@172.30.20.35 '
-                                docker rm -f genie-ai-container || true
-                                docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
-                            '
-                        '''
-                    }
+                                sshpass -p 'N0ida@12345' ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35
+                                'docker rm -f genie-ai-container || true
+                                docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image'
+                        '''                   
                 }
             }
         }
