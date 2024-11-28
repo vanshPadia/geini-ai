@@ -1,14 +1,15 @@
 pipeline {
     agent any
 
-    environment {        
-        GIT_CREDENTIALS = 'test'   
+    environment {
+        GIT_CREDENTIALS = 'test'  // Jenkins credential ID for Git
+        SSH_CREDENTIALS = 'remote-ssh' // Jenkins credential ID for SSH
     }
 
     stages {
         stage('Checkout') {
             steps {
-                script {                    
+                script {
                     withFolderProperties {
                         checkout([
                             $class: 'GitSCM',
@@ -23,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker && save') {
+        stage('Build Docker && Save') {
             steps {
                 script {                   
                     sh '''
@@ -34,35 +35,46 @@ pipeline {
             }
         }
 
-        stage('Copying image tar to aipoc machine') {
+        stage('Copy Image Tar to Remote Machine') {
             steps {
-                script {                                 
-                        sh '''
-                            sshpass -p 'N0ida@12345' ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35 'scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/'
-                        '''                    
-                }
+                sshPublisher(publishers: [
+                    sshPublisherDesc(
+                        configName: SSH_CREDENTIALS,
+                        transfers: [
+                            sshTransfer(
+                                sourceFiles: 'genie-ai-image.tar',
+                                remoteDirectory: '/home/aipoc/genie-app/container-registry'
+                            )
+                        ]
+                    )
+                ])
             }
         }
 
-        stage('Relode') {
+        stage('Reload Docker Image') {
             steps {
-                script {                           
-                        sh '''
-                            sshpass -p 'N0ida@12345' ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
-                        '''                   
-                }
+                sshCommand remote: [
+                    name: 'remote-ssh',
+                    host: '172.30.20.35',
+                    user: 'aipoc',
+                    credentialsId: SSH_CREDENTIALS
+                ], command: '''
+                    docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar
+                '''
             }
         }
 
-        stage('Run Docker') {
+        stage('Run Docker Container') {
             steps {
-                script {                            
-                        sh '''
-                                sshpass -p 'N0ida@12345' ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35
-                                'docker rm -f genie-ai-container || true
-                                docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image'
-                        '''                   
-                }
+                sshCommand remote: [
+                    name: 'remote-ssh',
+                    host: '172.30.20.35',
+                    user: 'aipoc',
+                    credentialsId: SSH_CREDENTIALS
+                ], command: '''
+                    docker rm -f genie-ai-container || true
+                    docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
+                '''
             }
         }
     }
