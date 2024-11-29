@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {        
         GIT_CREDENTIALS = 'test'   
     }
@@ -16,60 +16,65 @@ pipeline {
                             userRemoteConfigs: [[
                                 url: env.repositoryUrl,
                                 credentialsId: GIT_CREDENTIALS  
-                            ]]                          
+                            ]]
                         ])
                     }
                 }
             }
         }
-        
-        stage('Build Docker && save') {
+
+        stage('Build Docker & Save Image') {
             steps {
-                script {                   
+                script {
                     sh '''
                         docker build -t genie-ai-image:latest .
                         docker save -o genie-ai-image.tar genie-ai-image:latest
-
                     '''
                 }
             }
         }
-        stage('Copying image tar to aipoc machine') {
+
+        stage('Copy Image Tar to AIPOC Machine') {
             steps {
                 script {
-                    sshagent(['remote-ssh'])  {                 
-                    sh '''
-                        scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/                
-                    '''
+                    sshagent(['remote-ssh']) {                 
+                        sh '''
+                            scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/
+                        '''
                     }
                 }
             }
         }
-        stage('relode') {
+
+        stage('Load Docker Image on AIPOC Machine') {
             steps {
-                script {     
-                    sshagent(['remote-ssh']) {           
-                    sh '''
-                        ssh aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
-                    '''
+                script {
+                    sshagent(['remote-ssh']) {
+                        sh '''
+                            ssh aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
+                        '''
                     }
                 }
             }
         }
-        stage('run docker') {
+
+        stage('Run Docker Container') {
             steps {
-                script {     
-                    sshagent(['remote-ssh'])  {           
-                    sh '''
-                    ssh aipoc@172.30.20.35 '
-                    docker rm -f genie-ai-container || true
-                    docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image '
-                    '''
+                script {
+                    sshagent(['remote-ssh']) {
+                        sh '''
+                            ssh aipoc@172.30.20.35 '
+                            docker rm -f genie-ai-container || true
+                            docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
+                            '
+                        '''
                     }
                 }
             }
         }
-        post {
+    }
+
+    post {
         always {
             echo 'Pipeline execution complete.'
         }
@@ -78,7 +83,6 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed. Please check logs for more details.'
-        }
         }
     }
 }
