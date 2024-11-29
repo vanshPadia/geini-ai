@@ -13,8 +13,8 @@ pipeline {
                     sshagent(['remote-ssh']) {  
                         sh """
                             ssh aipoc@172.30.20.35 "
-                            mkdir -p /home/aipoc/genie-app
-                            cd /home/aipoc/genie-app
+                            mkdir -p /home/aipoc/test/genie-app
+                            cd /home/aipoc/test/genie-app
                             if [ -d .git ]; then
                                 git reset --hard
                                 git pull origin master
