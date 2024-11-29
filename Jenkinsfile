@@ -37,7 +37,7 @@ pipeline {
         stage('Copying image tar to aipoc machine') {
             steps {
                 script {
-                    sshagent(['aipoc-ssh-key'])  {                 
+                    sshagent(['remote-ssh'])  {                 
                     sh '''
                         scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/                
                     '''
@@ -48,7 +48,7 @@ pipeline {
         stage('relode') {
             steps {
                 script {     
-                    sshagent(['aipoc-ssh-key']) {           
+                    sshagent(['remote-ssh']) {           
                     sh '''
                         ssh aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
                     '''
@@ -59,7 +59,7 @@ pipeline {
         stage('run docker') {
             steps {
                 script {     
-                    sshagent(['aipoc-ssh-key'])  {           
+                    sshagent(['remote-ssh'])  {           
                     sh '''
                     ssh aipoc@172.30.20.35 '
                     docker rm -f genie-ai-container || true
