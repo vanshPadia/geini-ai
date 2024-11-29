@@ -12,7 +12,7 @@ pipeline {
                 script {
                     sshagent(['remote-ssh']) {  
                         sh """
-                            ssh aipoc@172.30.20.35 "
+                            ssh -o StrictHostKeyChecking=no aipoc@172.30.20.35 "
                             mkdir -p /home/aipoc/test/genie-app
                             cd /home/aipoc/test/genie-app
                             if [ -d .git ]; then
