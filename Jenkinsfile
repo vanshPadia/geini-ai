@@ -15,14 +15,8 @@ pipeline {
                             ssh aipoc@172.30.20.35 '
                             mkdir -p /home/aipoc/genie-app
                             cd /home/aipoc/genie-app
-                            
-                            # Clone or update the Git repository
-                            if [ ! -d .git ]; then
-                                git clone --branch ${gitBranch:-master} ${repositoryUrl} .
-                            else
-                                git pull origin ${gitBranch:-master}
-                            fi
-                            
+                            git clone url: ${repositoryUrl}, branch:'master'
+                          
                             docker rm -f genie-ai-container || true
                             docker compose up -d
                             '
