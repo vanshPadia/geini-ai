@@ -9,6 +9,7 @@ jobs:
   deploy:
     name: Deploy to Remote Server
     runs-on: ubuntu-latest
+    timeout-minutes: 120 
 
     env:
       REPOSITORY_URL: https://github.com/vanshPadia/geini-ai.git
