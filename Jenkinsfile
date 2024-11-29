@@ -1,15 +1,14 @@
 pipeline {
     agent any
-
-    environment {
-        GIT_CREDENTIALS = 'test'  // Jenkins credential ID for Git
-        SSH_CREDENTIALS = 'remote-ssh' // Jenkins credential ID for SSH
+    
+    environment {        
+        GIT_CREDENTIALS = 'test'   
     }
 
     stages {
         stage('Checkout') {
             steps {
-                script {
+                script {                    
                     withFolderProperties {
                         checkout([
                             $class: 'GitSCM',
@@ -23,63 +22,54 @@ pipeline {
                 }
             }
         }
-
-        stage('Build Docker && Save') {
+        
+        stage('Build Docker && save') {
             steps {
                 script {                   
                     sh '''
                         docker build -t genie-ai-image:latest .
                         docker save -o genie-ai-image.tar genie-ai-image:latest
+
                     '''
                 }
             }
         }
-
-        stage('Copy Image Tar to Remote Machine') {
+        stage('Copying image tar to aipoc machine') {
             steps {
-                sshPublisher(publishers: [
-                    sshPublisherDesc(
-                        configName: SSH_CREDENTIALS,
-                        transfers: [
-                            sshTransfer(
-                                sourceFiles: 'genie-ai-image.tar',
-                                remoteDirectory: '/home/aipoc/genie-app/container-registry'
-                            )
-                        ]
-                    )
-                ])
+                script {
+                    sshagent(['aipoc-ssh-key'])  {                 
+                    sh '''
+                        scp genie-ai-image.tar aipoc@172.30.20.35:/home/aipoc/genie-app/container-registry/                
+                    '''
+                    }
+                }
             }
         }
-
-        stage('Reload Docker Image') {
+        stage('relode') {
             steps {
-                sshCommand remote: [
-                    name: 'remote-ssh',
-                    host: '172.30.20.35',
-                    user: 'aipoc',
-                    credentialsId: SSH_CREDENTIALS
-                ], command: '''
-                    docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar
-                '''
+                script {     
+                    sshagent(['aipoc-ssh-key']) {           
+                    sh '''
+                        ssh aipoc@172.30.20.35 'docker load < /home/aipoc/genie-app/container-registry/genie-ai-image.tar'
+                    '''
+                    }
+                }
             }
         }
-
-        stage('Run Docker Container') {
+        stage('run docker') {
             steps {
-                sshCommand remote: [
-                    name: 'remote-ssh',
-                    host: '172.30.20.35',
-                    user: 'aipoc',
-                    credentialsId: SSH_CREDENTIALS
-                ], command: '''
+                script {     
+                    sshagent(['aipoc-ssh-key'])  {           
+                    sh '''
+                    ssh aipoc@172.30.20.35 '
                     docker rm -f genie-ai-container || true
-                    docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
-                '''
+                    docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image '
+                    '''
+                    }
+                }
             }
         }
-    }
-
-    post {
+        post {
         always {
             echo 'Pipeline execution complete.'
         }
@@ -88,6 +78,7 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed. Please check logs for more details.'
+        }
         }
     }
 }
