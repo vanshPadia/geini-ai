@@ -27,7 +27,7 @@ jobs:
 
     - name: Deploy to Remote Server
       run: |
-        ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
+        ssh -v -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
           mkdir -p $REMOTE_DIR &&
           cd $REMOTE_DIR &&
           if [ -d .git ]; then
