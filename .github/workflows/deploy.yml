@@ -1,42 +1,46 @@
-name: Deploy to Remote Server
+name: Smooth Deployment Workflow
 
 on:
   push:
-    branches:
-      - master  # You can change this to any branch you want to trigger the deployment
+    branches: 
+      - main  # Be specific about deployment branch
 
 jobs:
   deploy:
-    name: Deploy to Remote Server
     runs-on: ubuntu-latest
-    timeout-minutes: 120 
-
-    env:
-      REPOSITORY_URL: https://github.com/vanshPadia/geini-ai.git
-      REMOTE_USER: aipoc
-      REMOTE_HOST: 172.30.20.35
-      REMOTE_DIR: /home/aipoc/test/genie-app
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3  # Checkout the code from the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the private key you added earlier
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to Remote Server
-      run: |
-        ssh -v -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-          mkdir -p $REMOTE_DIR &&
-          cd $REMOTE_DIR &&
-          if [ -d .git ]; then
-            git reset --hard &&
-            git pull origin master
-          else
-            git clone --branch master $REPOSITORY_URL .
-          fi &&
-          docker compose down &&
-          docker compose up -d
-        "
+      - name: Deploy to Remote Server
+        env:
+          SSH_HOST: ${{ secrets.REMOTE_HOST }}
+          SSH_USER: ${{ secrets.REMOTE_USER }}
+          DEPLOY_PATH: ${{ secrets.REMOTE_DIRECTORY }}
+        run: |
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          ssh $SSH_USER@$SSH_HOST << 'EOF'
+            cd $DEPLOY_PATH
+            git fetch origin
+            git reset --hard origin/main
+            docker compose down
+            docker compose pull
+            docker compose up -d
+            docker compose ps
+          EOF
+
+      - name: Deployment Status Notification
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: Deployment failed!
+      - name: Validate Deployment
+        run: |
+            # Add custom health check script
+            curl -f http://localhost:8080/health || exit 1
