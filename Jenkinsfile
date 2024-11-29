@@ -15,14 +15,10 @@ pipeline {
                             # Checkout repository
                             mkdir -p /home/aipoc/genie-app
                             cd /home/aipoc/genie-app
-                            git clone --branch ${gitBranch:-master} ${repositoryUrl} . || (cd /home/aipoc/genie-app && git fetch && git checkout ${gitBranch:-master} && git pull)
-
-                            # Build Docker Image
-                            docker build -t genie-ai-image:latest .                           
-
+                            git clone --branch ${gitBranch:-env.gitbranch} ${env.repositoryUrl} 
                             # Run Docker Container
                             docker rm -f genie-ai-container || true
-                            docker run -d --name genie-ai-container -p 8000:8000 genie-ai-image
+                            docker compose up -d
                             '
                         '''
                     }
