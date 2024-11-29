@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {        
-        GIT_CREDENTIALS = 'test'
+        GIT_CREDENTIALS = 'git-vansh'
         repositoryUrl = 'https://github.com/vanshPadia/geini-ai.git' 
     }
 
