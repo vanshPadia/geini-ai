@@ -22,7 +22,7 @@ pipeline {
                                 git clone --branch master ${repositoryUrl} .
                             fi
                             
-                            docker rm -f genie-ai-container || true
+                            docker compose down
                             docker compose up -d
                             "
                         """
